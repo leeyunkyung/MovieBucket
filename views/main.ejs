@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/stylesheets/main.css">
+  <link rel="stylesheet" href="/stylesheets/table.css">
+  <title>Final project</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script>
+  $(document).ready(function(){
+
+    // 로그인 텍스트 클릭
+    $("#login").click(function(e){
+        $('#divLogin').show();// id: divLogin 화면 표시
+        e.stopPropagation();
+        e.preventDefault();
+    });
+    // 로그인 화면의 로그인 버튼 클릭
+    $("#btnLogin").click(function(e) {
+        var userId = $.trim($("#Id").val()); // 공백처리 후 값 세팅
+        var pwd = $.trim($("#UserPw").val()); // 공백처리 후 값 세팅
+
+        if (userId.length == ""){
+            alert("id을 입력해주세요.");
+            $("#Id").focus();
+            return false;
+        }
+        if (pwd.length == "") {
+            alert("비밀번호를 입력해주세요.");
+            $("#UserPw").focus();
+            return false;
+        }
+
+        // 로그인 처리
+        $.ajax({
+            url: '/mypage/login',
+            type: 'post',
+            dataType: 'text',
+            data: {userId: userId, pwd:pwd},
+            success: function(data) {
+                var json = JSON.parse(data);
+                if ( json.code == 1) { // 성공시
+                  $("#logout").html(json.userId +"님 로그아웃"); // html 세팅
+                  $('#divLogin').hide();// id: Plogin 화면 감추기
+                  $('#Plogout').show();// id: Plogout 화면 표시
+
+                }
+                else { // 실패시
+                    alert("로그인정보가 일치하지 않습니다.\n다시 시도해주세요.");
+                    $("#Id").val('').focus();
+                    $("#UserPw").val('');
+                    console.log("b");
+                }
+            }
+        });
+      });
+
+      //로그아웃 처리
+      $("#logout").click(function(e){
+          location.href="/mypage/logout";//경로확인해보기
+      });
+
+      //검색 - 성공
+      $('.searchButton').click(function(e){
+          var title = $.trim($(".searchTerm").val()); // 공백처리 후 값 세팅
+
+          if (title.length == ""){
+              alert("검색어를 입력해주세요.");
+              $(".searchTerm").focus();
+              return false;
+          }
+
+          // 검색 처리
+          $.ajax({
+              url: '/movie/search',
+              type: 'post',
+              dataType: 'text',
+              data: {title: title},
+              success: function(data) {
+                if(!data){
+                  alert("검색정보가 없습니다.\n다시 시도해주세요.");
+                    $(".searchTerm").val('').focus();
+                }else{
+                  $("#listDiv").html(data);
+                }
+              }
+          });
+
+      });
+      <%
+        console.log("aaa %j", sess);
+        if(!(sess.userId)){
+      %>
+      $('#divLogin').show();
+      $('#mypage_id').hide();
+      <% }else { %>
+        $('#Plogout').show();// id: Plogout 화면 표시*/
+        $('#mypage_id').show();
+        $("#logout").html("<%=sess.userId%>" +"님 로그아웃"); // html 세팅
+      <%}%>
+});
+  </script>
+</head>
+<body>
+  <header>
+  <h1><font size="50px">뭐 볼까?</font></h1>
+  </header>
+  <br/><br/><br/>
+  <nav>
+  <ul>
+    <li><a href="/mypage/main">Home</a></li>
+    <li><a href="/movie">영화리스트</a></li>
+    <li><a href="/community">커뮤니티</a></li>
+    <li><a href="/mypage" id="mypage_id" style="display:none">마이페이지</a></li>
+  </ul>
+  </nav>
+
+  <section id="main">
+    <div class="wrap">
+        <div class="search">
+            <br/>
+               <input type="text" class="searchTerm" placeholder="Search Movie Name..">
+               <button type="submit" class="searchButton"><font size="2pt">click</font></button>
+        </div>
+    </div>
+  </section>
+
+
+    <div style="float:right;">
+         <div id="divLogin" style="display:none">
+        <div class="login">
+            Id <font color="white">ssword</font><input id="Id" name="Id" type="text"/><br/>
+            Password <input id="UserPw" name="UserPw" type="password"/>
+            <br/><br/>
+            <button id="btnLogin">로그인</button>
+        </div>
+      </div>
+
+      <!-- 로그인상태시 화면 표시 -->
+      <p id="Plogout" style="display:none">
+        <a id="logout" href="#">로그아웃</a>
+      </p>
+
+    </div>
+
+    <br/><br/><br/><br/>
+    <center>
+    <h2>추천영화</h2>
+    
+        <table border="1" class="type08">
+            <tr>
+              <td>제목</td>
+              <td>주연</td>
+              <td>감독</td>
+            </tr>
+            <tr>
+                <td>
+                  <a href="/movie/detailSearch?movieId=1">
+                  강철비</a>
+                </td>
+                <td>정우성</td>
+                <td>양우석</td>
+            </tr>
+        </table>
+    </center>
+    <center><div id="listDiv"></div></center>
+</body>
+</html>

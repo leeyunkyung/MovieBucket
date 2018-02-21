@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="./stylesheets/main.css">
+  <title>Regist</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script>
+
+  $(document).ready(function(){
+      // 회원가입 화면에서 취소 버튼 클릭
+      $("#btnRegCancel").click(function(e){
+          // 값 초기화
+          $("#registId").val('');
+          $("#Pwd").val('');
+          $("#UserName").val('');
+          $("#Phone").val('');
+
+          location.href='index.html';
+      });
+
+      // 회원가입 등록처리
+      $("#btnReg").click(function(e){
+          $("#registId").val($.trim($('#registId').val())); // 공백처리 후 값 세팅
+          $("#Pwd").val($.trim($('#Pwd').val()));// 공백처리 후 값 세팅
+          $("#UserName").val($.trim($('#UserName').val()));// 공백처리 후 값 세팅
+          $("#Phone").val($.trim($('#Phone').val()));// 공백처리 후 값 세팅
+
+          // 유효값 처리: 학번, 비밀번호, 이름은 필수
+          var id = $("#registId").val();
+          var pwd = $("#Pwd").val();
+          var name =  $("#UserName").val();
+          var phone = $("#Phone").val();
+
+          if (!id || (isNaN(parseInt(id)) && id.length>8)) {
+                alert("id은 8자리 숫자로 입력해주세요." + isNaN(parseInt(stdno)));
+                // console.log(, stdno.length);
+                $("#Istdno").focus();
+                return false;
+            }
+            if (!pwd || !(pwd.length>= 3 && pwd.length<=5)) {
+                alert("비밀번호는 3~5자리로 입력해주세요.");
+                $("#Ipw").focus();
+                return false;
+            }
+            if (!name || !(name.length>=3 && name.length<=5 )) {
+                alert("이름은 3~8자리로 입력해주세요.");
+                $("#Inm").focus();
+                return false;
+            }
+
+          // 등록
+          $.ajax({
+              url: '/mypage/regist',
+              type: 'POST',
+              dataType: 'json',
+              data: $("#infoForm").serializeArray(),
+              success: function(data) {
+                  if (data.code == 1) { // 성공시
+                      alert("성공적으로 등록하였습니다.");
+                      location.href='login.html';
+                       $('#btnRegCancel').trigger('click');// id: btnRegCancel 클릭
+                  }
+                  else if ( data.code == 2 ) { // 중복 데이터 존재시
+                      alert("중복된 데이터가 있습니다.\n다시 입력해주세요.");
+                      $("#registId").focus();
+                      return false;
+                  }
+                  else { // 실패시
+                      alert("등록 중 오류가 발생했습니다.\n잠시후 이용해주세요.");
+                      $('#btnRegCancel').trigger('click'); // id: btnRegCancel 클릭
+                  }
+              }
+          });
+      });
+});//ready 닫는 부분
+</script>
+      </head>
+      <body>
+      <header>
+      <h1><font size="50px">뭐 볼까?</font></h1>
+      </header>
+      <br/><br/><br/>
+      <!-- 비로그인상태시 화면 표시 -->
+      <center>
+        <div class="register">
+            <form id="infoForm" name="infoForm" action="./regist" method="post">
+            <table>
+                <tr>
+                    <td>아이디<font color="white">ㅇㅇ</font><input id="registId" name="registId" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>비밀번호<font color="white">ㅇ</font><input id="Pwd" name="Pwd" type="password"/></td>
+                </tr>
+                <tr>
+                    <td>이름<font color="white">ㅇㅇㅇ</font><input id="UserName" name="UserName" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>핸드폰번호<input id="Phone" name="Phone" type="text"/></td>
+                </tr>
+            </table>
+            </form>
+
+            <br/><br/><br/>
+            <div class="btnDiv">
+                <input id="btnReg" type="submit" value="등록">
+                <button id="btnRegCancel">닫기</button>
+            </div>
+        </div>
+        </center>
+</body>
+</html>

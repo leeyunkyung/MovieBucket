@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="/stylesheets/table.css">
+  <title>Final project</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+  <body>
+    <center>
+    <header>
+    <h1><font size="50px">뭐 볼까?</font></h1>
+    </header>
+    <br/><br/><br/>
+    <nav>
+    <ul>
+      <li><a href="/mypage/main">Home</a></li>
+      <li><a href="/movie">영화리스트</a></li>
+      <li><a href="/community">커뮤니티</a></li>
+      <li><a href="/mypage">마이페이지</a></li>
+    </ul>
+    </nav>
+
+  <div>
+    <b>영화 목록</b>
+    <table border="1" class="type08">
+      <thead>
+        <tr color="#ccc">
+          <td>제목</td>
+          <td>주연</td>
+          <td>감독</td>
+        </tr>
+      </thead>
+    <%
+         for(var i=0; i < result.length; i++)
+         {
+            var obj = result[i];
+    %>
+    <tbody>
+        <tr>
+
+            <td><a href="/movie/detailSearch?movieId=<%=obj.movieId%>"><%=obj.title%></td>
+            <td><%=obj.actor%></td>
+            <td><%=obj.director%></td>
+        </tr>
+    <%
+         }
+    %>
+    <tbody>
+  </div>
+</center>
+</body>
+</html>

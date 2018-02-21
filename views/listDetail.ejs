@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="/stylesheets/table.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <title>상세검색</title>
+</head>
+<body>
+  <center>
+  <header>
+  <h1><font size="50px">뭐 볼까?</font></h1>
+  </header>
+  <br/><br/><br/>
+
+  <nav>
+  <ul>
+    <li><a href="/mypage/main">Home</a></li>
+    <li><a href="/movie">영화리스트</a></li>
+    <li><a href="/community">커뮤니티</a></li>
+    <li><a href="/mypage">마이페이지</a></li>
+  </ul>
+  </nav>
+    <br/>
+
+      <div>
+        <b>상세결과</b>
+        <form action="/community/update" method="get">
+            <table border="1" class="type08">
+              <%
+                   for(var i=0; i<result.length; i++)
+                   {
+                      var obj = result[i];
+              %>
+
+                      <button type="submit"><a href="/community/update?idx=<%=obj.idx%>">글 수정</a></button>
+                
+                <tr>
+                    <td>작성자</td>
+                    <td>제목</td>
+                    <td>내용</td>
+                    <td>변경일</td>
+                    <td>조회수</td>
+                </tr>
+                <tr>
+                    <td><%= obj.creator_id%></td>
+                    <td><%=obj.title%></td>
+                    <td><%=obj.content%></td>
+                    <td><%=obj.modidate%></td>
+                    <td><%=obj.hit%></td>
+                </tr>
+            </table>
+            <%
+                 }
+            %>
+        </form>
+</body>
+</html>

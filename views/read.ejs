@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/main.css'/>
+    <link rel='stylesheet' href='/stylesheets/table.css'/>
+</head>
+<body>
+  <center>
+  <header>
+  <h1><font size="50px">뭐 볼까?</font></h1>
+  </header>
+  <br/><br/><br/>
+  <nav>
+  <ul>
+    <li><a href="/mypage/main">Home</a></li>
+    <li><a href="/movie">영화리스트</a></li>
+    <li><a href="/community">커뮤니티</a></li>
+    <li><a href="/mypage">마이페이지</a></li>
+  </ul>
+  </nav>
+  <center>
+<h1><%= title %></h1>
+<br/><br/>
+<form action="/community/update" method="get">
+    <table border="1" class="=type08">
+        <input type="hidden" name="idx" value="<%=row.idx%>"/>
+        <tr>
+            <td>작성자</td>
+            <td>제목</td>
+            <td>내용</td>
+            <td>변경일</td>
+        </tr>
+        <tr>
+            <td><%=row.creator_id%></td>
+            <td><%=row.title%></td>
+            <td><%=row.content%></td>
+            <td><%=row.modidate%></td>
+        </tr>
+    </table><br/>
+            <button type="submit">글 수정</button>
+</form>
+
+
+</body>
+</html>

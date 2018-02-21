@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/main.css'/>
+    <link rel='stylesheet' href='/stylesheets/table.css'/>
+</head>
+<body>
+  <center>
+  <header>
+  <h1><font size="50px">뭐 볼까?</font></h1>
+  </header>
+  <br/><br/><br/>
+  <nav>
+  <ul>
+    <li><a href="/mypage/main">Home</a></li>
+    <li><a href="/movie">영화리스트</a></li>
+    <li><a href="/community">커뮤니티</a></li>
+    <li><a href="/mypage">마이페이지</a></li>
+  </ul>
+  </nav>
+  <center>
+<h1><%= title %></h1>
+
+<form action="/community/update" method="post" onsubmit="return onWriteSubmit()">
+    <table border="1" class="type08">
+        <input type="hidden" name="idx" value="<%=row.idx%>"/>
+        <tr>
+            <td>작성자</td>
+            <td><input type="text" name="creator_id" id="creator_id" value="<%=row.creator_id%>" required/></td>
+        </tr>
+        <tr>
+            <td>제목</td>
+            <td><input type="text" name="title" id="title" value="<%=row.title%>" required/></td>
+        </tr>
+        <tr>
+            <td>내용</td>
+            <td><textarea name="content" id="content" cols="30" rows="10" required><%=row.content%></textarea></td>
+        </tr>
+        <tr>
+            <td>패스워드</td>
+            <td><input type="password" name="contentPw" id="contentPw" required/></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <center><button type="submit">글쓰기</button></center>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<script>
+    function onWriteSubmit()
+    {
+        if ( $("#creator_id").val().trim() == "" )
+        {
+            var message = "아이디를 입력해 주세요";
+            $("#creator_id").val("");
+            $("#creator_id").focus();
+            alert(message);
+            return false;
+        }
+
+        if ( $("#title").val().trim() == "" )
+        {
+            var message = "제목을 입력해 주세요";
+            $("#title").val("");
+            $("#title").focus();
+            alert(message);
+            return false;
+        }
+
+        if ( $("#content").val().trim() == "" )
+        {
+            var message = "본문 내용을 입력해 주세요";
+            $("#content").val("");
+            $("#content").focus();
+            alert(message);
+            return false;
+        }
+
+        if ( $("#contentPw").val().trim() == "" )
+        {
+            var message = "패스워드를 입력해 주세요";
+            $("#contentPw").val("");
+            $("#contentPw").focus();
+            alert(message);
+            return false;
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/main.css'/>
+    <link rel='stylesheet' href='/stylesheets/table.css'/>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+  <center>
+  <header>
+  <h1><font size="50px">뭐 볼까?</font></h1>
+  </header>
+  <br/><br/><br/>
+  <nav>
+  <ul>
+    <li><a href="/mypage/main">Home</a></li>
+    <li><a href="/movie">영화리스트</a></li>
+    <li><a href="/community">커뮤니티</a></li>
+    <li><a href="/mypage">마이페이지</a></li>
+  </ul>
+  </nav>
+  <center>
+  <h2><%= title %></h2><br/>
+
+<table border="1" class="type08">
+    <thead>
+    <tr id="a">
+        <td>번호</td>
+        <td>제목</td>
+        <td>조회수</td>
+    </tr>
+    </thead>
+
+<%
+     for(var i=0; i<rows.length; i++)
+     {
+        var obj = rows[i];
+%>
+    <tr>
+        <td><%=obj.idx%></td>
+        <td><a href="/community/detailSearch?idx=<%=obj.idx%>"><%=obj.title%></td>
+        <td><%=obj.hit%></td>
+    </tr>
+
+<%
+     }
+%>
+</table>
+<a href="/community/write">글쓰기</a>
+
+<br>
+<br>
+</center>
+</body>
+</html>

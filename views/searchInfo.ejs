@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>검색결과</title>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+      <link rel="stylesheet" href="/stylesheets/table.css">
+</head>
+<body>
+
+    <!--제목 / 제작년도 / 주연 만들기-->
+    <div  id="listDiv">
+      <b>검색 목록</b>
+      <table border="1" class="type08">
+          <tr>
+            <td>제목</td>
+            <td>주연</td>
+            <td>감독</td>
+          </tr>
+      <%
+           for(var i=0; i < result.length; i++)
+           {
+              var obj = result[i];
+      %>
+          <tr>
+              <td>
+                <a href="/movie/detailSearch?movieId=<%=obj.movieId%>">
+                <%=obj.title%></a>
+              </td>
+              <td><%=obj.actor%></td>
+              <td><%=obj.director%></td>
+          </tr>
+      <%
+           }
+      %>
+      </table>
+      </div>
+</body>
+</html>

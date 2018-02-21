@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="/stylesheets/table.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <title>상세검색</title>
+    <script>
+        $(document).ready(function(){
+            <%
+             for(var i=0; i < result.length; i++)
+             {
+                var obj = result[i];
+            %>
+            $("#btnBucket").click(function(e){
+                $.ajax({
+                    url: '/mypage/bucket',
+                    type: 'POST',
+                    dataType: 'text',
+                    data:{movieId:<%=obj.movieId%>},
+                    success: function(data) {
+                        var json = JSON.parse(data);
+                        console.log(json.code);
+                        if (json.code == 1) { // 성공시
+                            alert("장바구니에 등록되었습니다.");
+                        }
+                        else if (json.code == 2) { // 중복 데이터 존재시
+                            alert("이미 영화가 담겨있습니다.");
+                            return false;
+                        }
+                        else { // 실패시
+                            alert("등록 중 오류가 발생했습니다.\n잠시후 이용해주세요.");
+                        }
+                    }
+                });    
+            });
+      });//end
+    </script>
+</head>
+<body>
+  <center>
+  <header>
+  <h1><font size="50px">뭐 볼까?</font></h1>
+  </header>
+  <br/><br/><br/>
+
+  <nav>
+  <ul>
+    <li><a href="/mypage/main">Home</a></li>
+    <li><a href="/movie">영화리스트</a></li>
+    <li><a href="/community">커뮤니티</a></li>
+    <li><a href="/mypage">마이페이지</a></li>
+  </ul>
+  </nav>
+    <br/>
+
+      <div>
+        <b>상세결과</b>
+        
+        <form action="/mypage/bucket" method="post">
+        <table border="1" class="type08">
+            <tr>
+              <td>버튼</td>
+              <td>제목</td>
+              <td>평점</td>
+              <td>개봉일</td>
+              <td>감독</td>
+              <td>주연</td>
+            </tr>
+        
+            <tr>
+                <td><button type="submit" id="btnBucket">장바구니</button></td>
+                <td><%=obj.title%></a></td>
+                <td><%=obj.rating%></td>
+                <td><%=obj.pubDate%></td>
+                <td><%=obj.director%></td>
+                <td><%=obj.actor%></td>
+            </tr>
+          </table>
+        </div>
+        <%
+             }
+        %>
+            </form>
+</body>
+</html>
